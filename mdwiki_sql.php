@@ -124,7 +124,9 @@ function execute_query($sql_query, $params = null)
     //---
     return $results;
 };
-function fetch_query($sql_query, $params = null)
+
+// function fetch_query($sql_query, $params = null)
+function fetch_query(string $sql_query, ?array $params = null): array
 {
 
     // Create a new database object

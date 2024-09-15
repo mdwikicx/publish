@@ -50,7 +50,7 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
 {
     global $Words_table;
     // ---
-    if (empty($user)) {
+    if (empty($user) || empty($title) || empty($lang)) {
         return;
     }
     // ---
