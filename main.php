@@ -68,6 +68,9 @@ function to_do($tab, $dir)
 $sourcetitle = $_REQUEST['sourcetitle'] ?? '';
 $title    = $_REQUEST['title'] ?? '';
 $user     = $_REQUEST['user'] ?? '';
+
+if ($user === "Mr. Ibrahem 1") $user = "Mr. Ibrahem";
+
 $lang     = $_REQUEST['target'] ?? '';
 $text     = $_REQUEST['text'] ?? '';
 $campaign = $_REQUEST['campaign'] ?? '';
