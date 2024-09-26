@@ -7,7 +7,9 @@ namespace Publish\TextFix;
 use function Publish\TextFix\DoChangesToText;
 
 */
+
 use function Publish\Helps\pub_test_print;
+use function Publish\MdCat\Add_MdWiki_Category;
 
 const TRADUCIDO_REF_PATTERN = '/\{\{\s*Traducido\s*ref\s*\|/';
 const ENLACES_EXTERNOS_PATTERN = '/==\s*Enlaces\s+externos\s*==/i';
@@ -58,6 +60,12 @@ function DoChangesToText($sourcetitle, $text, $lang, $revid)
     if ($lang == 'sw') {
         $text = sw_fixes($text);
     };
+    // ---
+    $cat = Add_MdWiki_Category($lang);
+    // ---
+    if (!empty($cat)) {
+        $text .= "\n$cat\n";
+    }
     // ---
     return $text;
 }
