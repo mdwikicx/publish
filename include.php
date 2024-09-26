@@ -7,12 +7,13 @@ if (isset($_REQUEST['test'])) {
 };
 include_once __DIR__ . '/../Translation_Dashboard/vendor_load.php';
 
-include_once __DIR__ . '/mdwiki_sql.php';
+include_once __DIR__ . '/bots/mdwiki_sql.php';
 
 include_once __DIR__ . '/config.php';
 include_once __DIR__ . '/do_edit.php';
 include_once __DIR__ . '/add_to_db.php';
 include_once __DIR__ . '/get_token.php';
 include_once __DIR__ . '/helps.php';
-include_once __DIR__ . '/text_fix.php';
-include_once __DIR__ . '/wd.php';
+include_once __DIR__ . '/bots/md_cat.php';
+include_once __DIR__ . '/bots/text_fix.php';
+include_once __DIR__ . '/bots/wd.php';

@@ -67,8 +67,11 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
     $target = str_replace("_", " ", $target);
     $user   = str_replace("_", " ", $user);
     // ---
+    $user_t = str_replace("User:", "", $user);
+    $user_t = str_replace("user:", "", $user_t);
+    // ---
     // if target contains user
-    if (strpos($target, $user) !== false) {
+    if (strpos($target, $user_t) !== false) {
         $use_user_sql = true;
         if ($user == "Mr. Ibrahem") {
             return;
