@@ -46,9 +46,9 @@ function get_revid($sourcetitle)
     return "";
 }
 
-function make_summary($revid, $sourcetitle, $to)
+function make_summary($revid, $sourcetitle, $to, $hashtag)
 {
-    return "Created by translating the page [[:mdwiki:Special:Redirect/revision/$revid|$sourcetitle]] to:$to #mdwikicx";
+    return "Created by translating the page [[:mdwiki:Special:Redirect/revision/$revid|$sourcetitle]] to:$to $hashtag";
 }
 
 function to_do($tab, $dir)
@@ -79,9 +79,17 @@ $summary  = $_REQUEST['summary'] ?? '';
 $revid    = $_REQUEST['revid'] ?? '';
 
 $revid    = get_revid($sourcetitle);
-$summary  = make_summary($revid, $sourcetitle, $lang);
 
-// $username = get_from_cookie('username');
+$user = str_replace("_", " ", $user);
+$title = str_replace("_", " ", $title);
+
+$hashtag = "#mdwikicx";
+
+if (strpos($title, "Mr. Ibrahem") !== false && $user == "Mr. Ibrahem") {
+    $hashtag = "";
+}
+
+$summary  = make_summary($revid, $sourcetitle, $lang, $hashtag);
 
 $access = get_access_from_db($user);
 
