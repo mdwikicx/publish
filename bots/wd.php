@@ -103,7 +103,7 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
 {
     $credentials = getAccessCredentials($user, $access_key, $access_secret);
     if ($credentials === null) {
-        return ['error' => 'Access credentials not found for user: ' . $user];
+        return ['error' => 'Access credentials not found for user: ' . $user, 'qid' => ""];
     }
     list($access_key, $access_secret) = $credentials;
 
@@ -114,7 +114,7 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
 
     $ns = $title_info['namespace']['id'] ?? '';
     if ($ns !== 0 && $ns !== "0") {
-        return ['error' => 'Cannot create link for namespace: ' . $ns];
+        return ['error' => 'Cannot create link for namespace: ' . $ns, 'nserror'=> true, 'qid' => $qid];
     }
 
     // "title":"Not found."
@@ -124,14 +124,14 @@ function LinkToWikidata($sourcetitle, $lang, $user, $targettitle, $access_key, $
 
     $not_found = $title_info['title'] ?? '';
     if ($not_found === 'Not found.') {
-        return ['error' => 'Target page not found: ' . $targettitle];
+        return ['error' => 'Target page not found: ' . $targettitle, 'qid' => $qid];
     }
 
     $link_result = LinkIt($qid, $lang, $sourcetitle, $targettitle, $access_key, $access_secret);
 
     if (isset($link_result['success']) && $link_result['success']) {
         pub_test_print("success: true");
-        return ['result' => "success"];
+        return ['result' => "success", 'qid' => $qid];
     }
 
     return $link_result;

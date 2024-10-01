@@ -154,6 +154,19 @@ if ($access == null) {
             $is_user_page = InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
             // ---
             $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
+            // ---
+            if (isset($editit['LinkToWikidata']['error']) && !isset($editit['LinkToWikidata']['nserror'])) {
+                $tab3 = [
+                    'error' => $editit['LinkToWikidata']['error'],
+                    'qid' => $editit['LinkToWikidata']['qid'] ?? "",
+                    'title' => $title,
+                    'sourcetitle' => $sourcetitle,
+                    'lang' => $lang,
+                    'username' => $user
+                ];
+                to_do($tab3, 'wd_errors');
+            }
+            // ---
         } catch (Exception $e) {
             pub_test_print($e->getMessage());
         }
