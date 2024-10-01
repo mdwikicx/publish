@@ -69,7 +69,11 @@ $sourcetitle = $_REQUEST['sourcetitle'] ?? '';
 $title    = $_REQUEST['title'] ?? '';
 $user     = $_REQUEST['user'] ?? '';
 
-if ($user === "Mr. Ibrahem 1") $user = "Mr. Ibrahem";
+$specialUsers = [
+    "Mr. Ibrahem 1" => "Mr. Ibrahem",
+    "Admin" => "Mr. Ibrahem"
+];
+$user = $specialUsers[$user] ?? $user;
 
 $lang     = $_REQUEST['target'] ?? '';
 $text     = $_REQUEST['text'] ?? '';
@@ -107,7 +111,21 @@ $tab = [
 // ---
 $to_do_dir = "to_do";
 // ---
-
+$apiParams = [
+    'action' => 'edit',
+    'title' => $title,
+    // 'section' => 'new',
+    'summary' => $summary,
+    'text' => $text,
+    'format' => 'json',
+];
+// ---
+// wpCaptchaId, wpCaptchaWord
+if (isset($_REQUEST['wpCaptchaId']) && isset($_REQUEST['wpCaptchaWord'])) {
+    $apiParams['wpCaptchaId'] = $_REQUEST['wpCaptchaId'];
+    $apiParams['wpCaptchaWord'] = $_REQUEST['wpCaptchaWord'];
+}
+// ---
 if ($access == null) {
     $ee = ['code' => 'noaccess', 'info' => 'noaccess'];
     $editit = ['error' => $ee, 'edit' => ['error' => $ee, 'username' => $user], 'username' => $user];
@@ -119,7 +137,9 @@ if ($access == null) {
     // $text = fix_wikirefs($text, $lang);
     $text = DoChangesToText($sourcetitle, $text, $lang, $revid);
     // ---
-    $editit = publish_do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
+    $apiParams["text"] = $text;
+    // ---
+    $editit = publish_do_edit($apiParams, $lang, $access_key, $access_secret);
     // ---
     $Success = $editit['edit']['result'] ?? '';
     // ---
@@ -134,6 +154,19 @@ if ($access == null) {
             $is_user_page = InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
             // ---
             $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
+            // ---
+            if (isset($editit['LinkToWikidata']['error']) && !isset($editit['LinkToWikidata']['nserror'])) {
+                $tab3 = [
+                    'error' => $editit['LinkToWikidata']['error'],
+                    'qid' => $editit['LinkToWikidata']['qid'] ?? "",
+                    'title' => $title,
+                    'sourcetitle' => $sourcetitle,
+                    'lang' => $lang,
+                    'username' => $user
+                ];
+                to_do($tab3, 'wd_errors');
+            }
+            // ---
         } catch (Exception $e) {
             pub_test_print($e->getMessage());
         }

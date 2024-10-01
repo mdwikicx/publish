@@ -17,7 +17,11 @@ $wiki    = $_GET['wiki'] ?? '';
 $user    = $_GET['user'] ?? '';
 $ty      = $_GET['ty'] ?? '';
 
-if ($user === "Mr. Ibrahem 1" || $user === "Admin") $user = "Mr. Ibrahem";
+$specialUsers = [
+    "Mr. Ibrahem 1" => "Mr. Ibrahem",
+    "Admin" => "Mr. Ibrahem"
+];
+$user = $specialUsers[$user] ?? $user;
 
 if (empty($wiki) || empty($user)) {
     print(json_encode(['error' => ['code' => 'no data', 'info' => 'wiki or user is empty']], JSON_PRETTY_PRINT));

@@ -31,7 +31,7 @@ function get_edits_token($client, $accessToken, $apiUrl)
     return $data->query->tokens->csrftoken;
 }
 
-function publish_do_edit($title, $text, $summary, $wiki, $access_key, $access_secret)
+function publish_do_edit($apiParams, $wiki, $access_key, $access_secret)
 {
     global $gUserAgent, $consumerKey, $consumerSecret;
     // ---
@@ -48,15 +48,7 @@ function publish_do_edit($title, $text, $summary, $wiki, $access_key, $access_se
     // ---
     $editToken = get_edits_token($client, $accessToken, $apiUrl);
     // ---
-    $apiParams = [
-        'action' => 'edit',
-        'title' => $title,
-        // 'section' => 'new',
-        'summary' => $summary,
-        'text' => $text,
-        'token' => $editToken,
-        'format' => 'json',
-    ];
+    $apiParams['token'] = $editToken;
     // ---
     $req = $client->makeOAuthCall(
         $accessToken,
