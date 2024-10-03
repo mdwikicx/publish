@@ -33,9 +33,9 @@ function find_exists($title, $lang, $user)
 {
     $query = <<<SQL
         SELECT 1 FROM (
-            SELECT 1 FROM pages WHERE title = ? AND lang = ? AND user = ?
+            SELECT 1 FROM pages WHERE title = ? AND lang = ? AND user = ? AND title != ""
             UNION
-            SELECT 1 FROM pages_users WHERE title = ? AND lang = ? AND user = ?
+            SELECT 1 FROM pages_users WHERE title = ? AND lang = ? AND user = ? AND title != ""
         ) AS combined
     SQL;
     // ---
