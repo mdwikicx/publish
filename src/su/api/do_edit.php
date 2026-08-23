@@ -22,6 +22,7 @@ function publish_do_edit($apiParams, $wiki, $access)
     $editToken = get_edits_token($client, $accessToken, $apiUrl);
 
     $apiParams['token'] = $editToken;
+    $apiParams['tags'] = [ 'contenttranslation', 'contenttranslation-v2' ];
 
     $req = $client->makeOAuthCall(
         $accessToken,
